@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+
+<body>
+
+  <section class="section has-background-dark">
+    <div class="container">
+      <div class="columns is-centered">
+        <button class="button is-white is-rounded is-large clear-canvas mx-3">Clear Canvas</button>
+        <button class="button gco is-info is-rounded is-large lighter mx-3" data-gco="lighter">lighter</button>
+        <button class="button gco is-danger is-rounded is-large multiply mx-3" data-gco="multiply">multiply</button>
+        <button class="button gco is-primary is-rounded is-large xor mx-3" data-gco="xor">xor</button>
+        <button class="button gco is-warning is-rounded is-large difference mx-3"
+          data-gco="difference">difference</button>
+      </div>
+    </div>
+  </section>
+
+  <canvas id="draw" width="800" height="800"></canvas>
+
+  <script>
+    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
+    const canvas = document.querySelector('#draw');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 80;
+    ctx.globalCompositeOperation = '';
+
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let hue = 0;
+
+    function draw(e) {
+      if (!isDrawing) return;
+      // console.log(e);
+      ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+      ctx.lineWidth = Math.random() * 50 + 18;
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY); // start from
+      ctx.lineTo(e.offsetX, e.offsetY); // go to
+      ctx.stroke();
+      [lastX, lastY] = [e.offsetX, e.offsetY]; // destructuring an array
+      hue += 2;
+      if (hue >= 360) {
+        hue = 0;
+      }
+    }
+
+    canvas.addEventListener('mousedown', e => {
+      isDrawing = true;
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', () => (isDrawing = false));
+    canvas.addEventListener('mouseout', () => (isDrawing = false));
+
+    const clearButton = document.querySelector('.clear-canvas');
+    clearButton.addEventListener('click', () =>
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+    );
+
+    document.querySelectorAll('.button').forEach(item => {
+      if (item.hasAttribute('data-gco')) {
+        item.addEventListener('click', e => {
+          ctx.globalCompositeOperation = item.dataset.gco;
+        });
+      }
+    });
+  </script>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+    }
+  </style>
+
+</body>
+
+</html>
