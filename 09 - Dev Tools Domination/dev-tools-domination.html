@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+    // Regular
+    console.log('hello');
+
+    // Interpolated
+    console.log('this is interpolated console.log(%s)', '👨‍💻👩‍💻');
+
+    // Styled
+    console.log(
+  '%c I am some great text',
+  'font-size:3rem; background:coral; text-shadow: 5px 5px 0 yellow'
+);
+
+    // warning!
+    console.warn('HUOM!!');
+
+    // Error :|
+    console.error('perkele!!');
+
+    // Info
+    console.info('Procrastination makes easy things hard, hard things harder.');
+
+    // Testing
+    console.assert(1 === 1, 'this message is not visible');
+    console.assert(2 ** 4 === 16, 'this message is not visible neither');
+
+    const testingParagraph = document.querySelector('p');
+    console.assert(
+  testingParagraph.classList.contains('ouch'),
+  'It does NOT contains ouch'
+);
+
+    // clearing
+    console.clear();
+
+    // Viewing DOM Elements
+    console.log(testingParagraph);
+
+    // to see the available methods and all the properties on that element
+    console.dir(testingParagraph);
+
+    // Grouping together
+    dogs.forEach(dog => {
+      console.groupCollapsed(`${dog.name}`); // cf. console.group()
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd(`${dog.name}`);
+    });
+
+    // array -> table
+    console.table(dogs);
+
+    // counting
+    console.count('Star');
+    console.count('Planet');
+    console.count('Star');
+    console.count('Planet');
+    console.count('Star');
+    console.count('Planet');
+    console.count('Sun');
+    console.count('Star');
+    console.count('Planet');
+    console.count('Star');
+    console.count('Planet');
+    console.count('Sun');
+    console.count('Planet');
+    console.count('Sun');
+    console.count('Planet');
+    console.count('Sun');
+
+    // timing
+    console.time('feching data');
+    console.time('fetching data');
+
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data');
+        console.log(data);
+      });
+  </script>
+</body>
+</html>
