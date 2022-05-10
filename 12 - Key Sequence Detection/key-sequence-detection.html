@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<h2>Type screet code!</h2>
+<script>
+const pressed =[];
+const secretCode ='yoruz';
+
+window.addEventListener('keyup', (e) => {
+  console.log(e.key);
+  pressed.push(e.key);
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice#remove_1_element_from_index_-2
+  pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length)
+  if(pressed.join('').includes(secretCode)) {
+    console.log('Ding Ding!');
+    cornify_add();
+  }
+  console.log(pressed);
+})
+</script>
+</body>
+</html>
